@@ -70,84 +70,84 @@ button {
   box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.2);
   z-index: 5;
   //   height: 700px;
-}
 
-.modal-head {
-  background-color: $primary-orange;
-  padding: 0.5rem 2.4rem;
-  font-size: 1.5rem;
-  color: #fff;
-  position: relative;
-}
+  .modal-head {
+    background-color: $primary-orange;
+    padding: 0.5rem 2.4rem;
+    font-size: 1.5rem;
+    color: #fff;
+    position: relative;
+  }
 
-.modal-head h3 {
-  color: #fff;
-}
+  .modal-head h3 {
+    color: #fff;
+  }
 
-#close-btn {
-  display: block;
-  background: transparent;
-  font-size: 1.4rem;
-  position: absolute;
-  right: 1.5rem;
-  top: 1rem;
-  background-color: #fff;
-  color: $grey;
-  align-items: center;
-  justify-content: center;
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  transition: all 200ms ease;
-}
+  #close-btn {
+    display: block;
+    background: transparent;
+    font-size: 1.4rem;
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    background-color: #fff;
+    color: $grey;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    transition: all 200ms ease;
+  }
 
-#close-btn:hover {
-  -webkit-transform: scale(1.1);
-  -ms-transform: scale(1.1);
-  transform: scale(1.1);
-}
+  #close-btn:hover {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+  }
 
-.modal-main {
-  padding: 1.2rem 2.4rem 1rem;
-  max-width: 580px;
-  min-width: 500px;
-}
-.modal-row {
-  margin-bottom: 0.5rem;
-}
+  .modal-main {
+    padding: 1.2rem 2.4rem 1rem;
+    max-width: 580px;
+    min-width: 500px;
+  }
+  .modal-row {
+    margin-bottom: 0.5rem;
+  }
 
-.grid-row {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 1.3rem;
-}
-.modal-col label {
-  display: block;
-  font-weight: 700;
-  color: $secondary-blue;
-  margin-bottom: 0.6rem;
-}
+  .grid-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1.3rem;
+  }
+  .modal-col label {
+    display: block;
+    font-weight: 700;
+    color: $secondary-blue;
+    margin-bottom: 0.6rem;
+  }
 
-.modal-col input,
-.modal-col select {
-  border: 1px solid rgba(184, 183, 188, 0.5);
-  border-radius: 3px;
-  padding: 0.5rem 0.8rem;
-  font-size: 1rem;
-  font-family: inherit;
-  outline: 0;
-  width: 100%;
-}
-#modal-btns button {
-  font-size: 1.1rem;
-  color: #fff;
-  border-radius: 4px;
-  padding: 0.6rem 2rem;
-  transition: all 200ms ease;
-  //   margin-bottom: 2rem;
-}
-#modal-btns button:hover {
-  transform: translateY(1px);
+  .modal-col input,
+  .modal-col select {
+    border: 1px solid rgba(184, 183, 188, 0.5);
+    border-radius: 3px;
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: 0;
+    width: 100%;
+  }
+  #modal-btns button {
+    font-size: 1.1rem;
+    color: #fff;
+    border-radius: 4px;
+    padding: 0.6rem 2rem;
+    transition: all 200ms ease;
+    //   margin-bottom: 2rem;
+  }
+  #modal-btns button:hover {
+    transform: translateY(1px);
+  }
 }
 #save-btn,
 #update-btn {
@@ -269,5 +269,5 @@ button {
 
 /* for error message */
 .errorMsg {
-  border: 1px solid #d33c41 !important;
+  border: 2px solid #d33c41 !important;
 }
