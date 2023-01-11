@@ -33,6 +33,56 @@ let addrName =
 // --------------------------
 // UI CLASS
 class UI {
+  static showAddressList() {
+    const addresses = Addresses.getAddresses();
+    addresses.forEach((address) => UI.addToAdrressList(address));
+  }
+
+  static addToAdrressList(address) {
+    const tableRow = document.createElement("tr");
+    tableRow.setAttribute("data-id", address.id);
+    tableRow.innerHTML = `
+    <td>${address.id}</td>
+    <td>
+      <span class="addressing-name">${address.addrName}</span><br /><span
+        class="address"
+        >${address.streetAddr} ${address.postCode} ${address.city} ${
+      address.country
+    }</span
+      >
+    </td>
+    <td><span>${address.labels}</span></td>
+    <td>${address.firstName + " " + address.lastName}</td>
+    <td>${address.phone}</td>
+    `;
+    addrBookList.appendChild(tableRow);
+  }
+
+  static showModalData(id) {
+    const addresses = Addresses.getAddresses();
+    addresses.forEach((address) => {
+      if (address.id == id) {
+        form.addr_ing_name.value = address.addrName;
+        form.first_name.value = address.firstName;
+        form.last_name.value = address.lastName;
+        form.email.value = address.email;
+        form.phone.value = address.phone;
+        form.street_addr.value = address.streetAddr;
+        form.postal_code.value = address.postCode;
+        form.city.value = address.city;
+        form.country.value = address.country;
+        form.labels.value = address.labels;
+        document.getElementById("modal-title").innerHTML =
+          "Change Address Details";
+
+        document.getElementById("modal-btns").innerHTML = `
+            <button type = "submit" id = "update-btn" data-id = "${id}">Update </button>
+            <button type = "button" id = "delete-btn" data-id = "${id}">Delete </button>
+        `;
+      }
+    });
+  }
+
   static showModal() {
     modal.style.display = "block";
     fullscreenDiv.style.display = "block";
@@ -48,6 +98,7 @@ class UI {
 class Addresses {
   constructor(
     id,
+    addrName,
     firstName,
     lastName,
     email,
@@ -59,6 +110,7 @@ class Addresses {
     labels
   ) {
     this.id = id;
+    this.addrName = addrName;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
@@ -80,12 +132,54 @@ class Addresses {
     }
     return addresses;
   }
+
+  static addAddress(address) {
+    const addresses = Addresses.getAddresses();
+    addresses.push(address);
+    localStorage.setItem("addresses", JSON.stringify(addresses));
+  }
+
+  static deleteAddress(id) {
+    const addresses = Addresses.getAddresses();
+    addresses.forEach((address, index) => {
+      if (address.id == id) {
+        addresses.splice(index, 1);
+      }
+    });
+    localStorage.setItem("addresses", JSON.stringify(addresses));
+    form.reset();
+    UI.closeModal();
+    addrBookList.innerHTML = "";
+    UI.showAddressList();
+  }
+
+  static updateAddress(item) {
+    const addresses = Addresses.getAddresses();
+    addresses.forEach((address) => {
+      if (address.id == item.id) {
+        address.addrName = item.addrName;
+        address.firstName = item.firstName;
+        address.lastName = item.lastName;
+        address.email = item.email;
+        address.phone = item.phone;
+        address.streetAddr = item.streetAddr;
+        address.postCode = item.postCode;
+        address.city = item.city;
+        address.country = item.country;
+        address.labels = item.labels;
+      }
+    });
+    localStorage.setItem("addresses", JSON.stringify(addresses));
+    addrBookList.innerHTML = "";
+    UI.showAddressList();
+  }
 }
 
 // ------------------------------
 window.addEventListener("DOMContentLoaded", () => {
   loadJson(); //loading the countirs json
   eventListener();
+  UI.showAddressList();
 });
 
 //loading countries list
@@ -133,6 +227,83 @@ function eventListener() {
       } else {
         let allItem = Addresses.getAddresses(); //this will create an empty array
         console.log(allItem);
+        let lastItemId =
+          allItem.length > 0 ? allItem[allItem.length - 1].id : 0;
+        lastItemId++;
+
+        const addressItem = new Addresses(
+          lastItemId,
+          addrName,
+          firstName,
+          lastName,
+          email,
+          phone,
+          streetAddr,
+          postCode,
+          city,
+          country,
+          labels
+        );
+        Addresses.addAddress(addressItem);
+        UI.closeModal();
+        UI.addToAdrressList(addressItem);
+        form.reset();
+      }
+    }
+  });
+
+  //Table row items
+  addrBookList.addEventListener("click", (e) => {
+    UI.showModal();
+    // console.log(e.target);
+    let trElement;
+    if (e.target.parentElement.tagName == "TD") {
+      trElement = e.target.parentElement.parentElement;
+    }
+    if (e.target.parentElement.tagName == "TR") {
+      trElement = e.target.parentElement;
+    }
+    let viewID = trElement.dataset.id;
+    // console.log(viewID);
+    UI.showModalData(viewID);
+  });
+
+  //delete an address item
+  modalBtns.addEventListener("click", (e) => {
+    if (e.target.id == "delete-btn") {
+      Addresses.deleteAddress(e.target.dataset.id);
+    }
+  });
+
+  //update amn address item
+  modalBtns.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (event.target.id == "update-btn") {
+      let id = event.target.dataset.id;
+      let isFormValid = getFormData();
+      if (!isFormValid) {
+        form.querySelectorAll("input").forEach((input) => {
+          setTimeout(() => {
+            input.classList.remove("errorMsg");
+          }, 1500);
+        });
+      } else {
+        const addressItem = new Addresses(
+          id,
+          addrName,
+          firstName,
+          lastName,
+          email,
+          phone,
+          streetAddr,
+          postCode,
+          city,
+          country,
+          labels
+        );
+        Addresses.updateAddress(addressItem);
+        UI.closeModal();
+        form.reset();
       }
     }
   });
